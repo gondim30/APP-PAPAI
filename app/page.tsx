@@ -13,16 +13,16 @@ import {
   Heart,
   Shield,
   MessageCircle,
-  MapPin,
-  Search,
   Clock,
   CheckCircle,
-  XCircle,
   Users,
   ImageIcon,
   MessageSquare,
   Star,
   Lock,
+  Baby,
+  Eye,
+  UserCheck,
 } from "lucide-react"
 
 type Step = "landing" | "account" | "login" | "upload" | "investigation" | "error"
@@ -53,7 +53,7 @@ interface PlatformData {
   }
 }
 
-export default function Spy3App() {
+export default function FamilySafeApp() {
   const [currentStep, setCurrentStep] = useState<Step>("landing")
   const [isLogin, setIsLogin] = useState(false)
   const [formData, setFormData] = useState<FormData>({
@@ -76,6 +76,97 @@ export default function Spy3App() {
   const [showUnlockSquare, setShowUnlockSquare] = useState(false)
   const [platforms, setPlatforms] = useState<PlatformData[]>([
     {
+      name: "WhatsApp",
+      icon: <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "text-green-600",
+      bgColor: "bg-green-500",
+      progress: 0,
+      status: "waiting",
+      findings: [],
+      specificData: {
+        type: "messages",
+        items: [],
+      },
+    },
+    {
+      name: "OnlyFans",
+      icon: <Heart className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "text-blue-500",
+      bgColor: "bg-blue-500",
+      progress: 0,
+      status: "waiting",
+      findings: [],
+      specificData: {
+        type: "adult content",
+        items: [],
+      },
+    },
+    {
+      name: "Omegle",
+      icon: <Users className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "text-orange-500",
+      bgColor: "bg-orange-500",
+      progress: 0,
+      status: "waiting",
+      findings: [],
+      specificData: {
+        type: "random chat",
+        items: [],
+      },
+    },
+    {
+      name: "ChatRoulette",
+      icon: <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "text-red-500",
+      bgColor: "bg-red-500",
+      progress: 0,
+      status: "waiting",
+      findings: [],
+      specificData: {
+        type: "video chat",
+        items: [],
+      },
+    },
+    {
+      name: "Kik",
+      icon: <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "text-green-400",
+      bgColor: "bg-green-400",
+      progress: 0,
+      status: "waiting",
+      findings: [],
+      specificData: {
+        type: "anonymous messages",
+        items: [],
+      },
+    },
+    {
+      name: "Telegram",
+      icon: <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "text-blue-400",
+      bgColor: "bg-blue-400",
+      progress: 0,
+      status: "waiting",
+      findings: [],
+      specificData: {
+        type: "encrypted messages",
+        items: [],
+      },
+    },
+    {
+      name: "Roblox",
+      icon: <Users className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "text-red-400",
+      bgColor: "bg-red-400",
+      progress: 0,
+      status: "waiting",
+      findings: [],
+      specificData: {
+        type: "gaming platform",
+        items: [],
+      },
+    },
+    {
       name: "Instagram",
       icon: <Instagram className="w-5 h-5 sm:w-6 sm:h-6" />,
       color: "text-pink-600",
@@ -84,7 +175,7 @@ export default function Spy3App() {
       status: "waiting",
       findings: [],
       specificData: {
-        type: "photos & profiles",
+        type: "photos and profiles",
         items: [],
       },
     },
@@ -97,46 +188,85 @@ export default function Spy3App() {
       status: "waiting",
       findings: [],
       specificData: {
-        type: "posts & conversations",
+        type: "social network",
         items: [],
       },
     },
     {
-      name: "Tinder",
-      icon: <Heart className="w-5 h-5 sm:w-6 sm:h-6" />,
-      color: "text-red-500",
-      bgColor: "bg-gradient-to-r from-red-500 to-pink-500",
-      progress: 0,
-      status: "waiting",
-      findings: [],
-      specificData: {
-        type: "dating",
-        items: [],
-      },
-    },
-    {
-      name: "WhatsApp",
-      icon: <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />,
-      color: "text-green-600",
-      bgColor: "bg-green-500",
-      progress: 0,
-      status: "waiting",
-      findings: [],
-      specificData: {
-        type: "messaging",
-        items: [],
-      },
-    },
-    {
-      name: "Location",
-      icon: <MapPin className="w-5 h-5 sm:w-6 sm:h-6" />,
+      name: "X-Videos",
+      icon: <Eye className="w-5 h-5 sm:w-6 sm:h-6" />,
       color: "text-red-600",
-      bgColor: "bg-red-500",
+      bgColor: "bg-red-600",
       progress: 0,
       status: "waiting",
       findings: [],
       specificData: {
-        type: "location",
+        type: "adult content",
+        items: [],
+      },
+    },
+    {
+      name: "Snapchat",
+      icon: <ImageIcon className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "text-yellow-400",
+      bgColor: "bg-yellow-400",
+      progress: 0,
+      status: "waiting",
+      findings: [],
+      specificData: {
+        type: "temporary messages",
+        items: [],
+      },
+    },
+    {
+      name: "Discord",
+      icon: <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "text-indigo-500",
+      bgColor: "bg-indigo-500",
+      progress: 0,
+      status: "waiting",
+      findings: [],
+      specificData: {
+        type: "gaming chat",
+        items: [],
+      },
+    },
+    {
+      name: "TikTok",
+      icon: <Star className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "text-pink-500",
+      bgColor: "bg-pink-500",
+      progress: 0,
+      status: "waiting",
+      findings: [],
+      specificData: {
+        type: "short videos",
+        items: [],
+      },
+    },
+    {
+      name: "Reddit",
+      icon: <Users className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "text-orange-600",
+      bgColor: "bg-orange-600",
+      progress: 0,
+      status: "waiting",
+      findings: [],
+      specificData: {
+        type: "forums",
+        items: [],
+      },
+    },
+    {
+      name: "Twitch",
+      icon: <Eye className="w-5 h-5 sm:w-6 sm:h-6" />,
+      color: "text-purple-500",
+      bgColor: "bg-purple-500",
+      progress: 0,
+      status: "waiting",
+      findings: [],
+      specificData: {
+        type: "live streams",
         items: [],
       },
     },
@@ -197,7 +327,7 @@ export default function Spy3App() {
 
       return () => clearInterval(interval)
     }
-  }, [isLoading, isLogin])
+  }, [isLoading]) // Removed isLogin from dependencies to prevent infinite loop
 
   useEffect(() => {
     if (investigationStartTime && !isSystemOverloaded) {
@@ -258,89 +388,117 @@ export default function Spy3App() {
                   if (newProgress >= maxAllowedProgress * 0.95 && timeProgress >= 85) {
                     clearInterval(progressInterval)
 
-                    // Platform-specific findings
-                    const hasFindings = Math.random() > 0.2
+                    // Platform-specific findings for parental control context
+                    const hasFindings = Math.random() > 0.3
                     let findings: string[] = []
                     let specificData = { type: "", items: [], count: 0 }
 
                     if (hasFindings) {
                       switch (platform.name) {
-                        case "Instagram":
-                          findings = ["Public profile found", "847 followers", "23 recent photos"]
-                          specificData = {
-                            type: "photos & profiles",
-                            items: [
-                              "📸 23 photos in main profile",
-                              "❤️ 1,247 total likes received",
-                              "📱 Active stories (viewed 2h ago)",
-                              "👥 847 followers, 312 following",
-                              "📍 15 photos with geolocation",
-                              "💬 Comments on 8 recent posts",
-                              "🔍 Accessed profiles: @maria_silva, @joao123",
-                            ],
-                            count: 23,
-                          }
-                          break
-                        case "Facebook":
-                          findings = ["Active profile", "312 friends", "Last activity: yesterday"]
-                          specificData = {
-                            type: "posts & conversations",
-                            items: [
-                              "📝 12 posts in last 30 days",
-                              "💬 Active conversations with 5 people",
-                              "👥 312 friends, 45 followers",
-                              "📍 Check-ins: Shopping Center, Restaurant",
-                              "❤️ 89 likes on recent posts",
-                              "🔍 Visited profiles: Ana Costa, Pedro Santos",
-                            ],
-                            count: 312,
-                          }
-                          break
-                        case "Tinder":
-                          findings = ["Active profile found", "Last online: today", "7 profile photos"]
-                          specificData = {
-                            type: "matches & conversations",
-                            items: [
-                              "💕 14 active matches",
-                              "💬 8 ongoing conversations",
-                              "📸 7 verified profile photos",
-                              "📍 Search radius: 25km",
-                              "⭐ Super likes sent: 3 this week",
-                              "🔥 Recent matches: Carla, Beatriz, Amanda",
-                            ],
-                            count: 14,
-                          }
-                          break
                         case "WhatsApp":
-                          findings = ["Active number", "Last seen: 14:32", "Profile photo visible"]
+                          findings = ["Active account found", "23 contacts", "Last seen: 2h ago"]
                           specificData = {
-                            type: "conversations & contacts",
+                            type: "messaging activity",
                             items: [
-                              "💬 23 active conversations",
+                              "💬 15 active conversations",
                               "📱 Online 2 hours ago",
-                              "📸 Profile photo changed 3 days ago",
-                              "📞 Calls to: Mom, João, Work",
-                              "📊 Status: 'Busy at work'",
-                              "👥 Groups: Family, Friends, Work (3)",
+                              "👥 23 contacts in address book",
+                              "📞 Video calls to unknown numbers",
+                              "🔍 Groups: School Friends, Games",
+                              "⚠️ Messages with strangers detected",
                             ],
                             count: 23,
                           }
                           break
-                        case "Location":
-                          findings = ["3 addresses found", "Frequent locations identified", "Movement pattern detected"]
+                        case "OnlyFans":
+                          findings = ["⚠️ ADULT CONTENT DETECTED", "Active subscription", "Payment method linked"]
                           specificData = {
-                            type: "locations & addresses",
+                            type: "adult content access",
                             items: [
-                              "🏠 Home: Flores Street, 123 - Garden District",
-                              "🏢 Work: Paulista Ave, 1000 - Downtown",
-                              "🏋️ Gym: Smart Fit - Shopping Center",
-                              "🍕 Frequent restaurant: Pizza Hut",
-                              "⛽ Gas station: Shell - Main Street",
-                              "📍 Last location: Shopping (3h ago)",
+                              "🔞 Active subscription found",
+                              "💳 Payment method: Credit card",
+                              "📅 Account created: 2 months ago",
+                              "⚠️ Age verification bypassed",
+                              "📊 Daily usage: 2-3 hours",
+                              "🚨 HIGH RISK CONTENT ACCESS",
                             ],
-                            count: 6,
+                            count: 1,
                           }
                           break
+                        case "Omegle":
+                          findings = ["⚠️ STRANGER DANGER", "Random video chats", "No age verification"]
+                          specificData = {
+                            type: "random chat with strangers",
+                            items: [
+                              "👥 Random video chats with strangers",
+                              "🌍 Global connections (no filters)",
+                              "⚠️ No age verification required",
+                              "🚨 Potential exposure to predators",
+                              "📹 Webcam sharing enabled",
+                              "🔍 Chat logs not saved (anonymous)",
+                            ],
+                            count: 0,
+                          }
+                          break
+                        case "Instagram":
+                          findings = ["Public profile", "847 followers", "DMs from strangers"]
+                          specificData = {
+                            type: "social media activity",
+                            items: [
+                              "📸 23 photos posted (some inappropriate)",
+                              "👥 847 followers (many unknown)",
+                              "💬 DMs from adult strangers",
+                              "📍 Location sharing enabled",
+                              "⚠️ Comments from suspicious accounts",
+                              "🔍 Following inappropriate accounts",
+                            ],
+                            count: 23,
+                          }
+                          break
+                        case "Discord":
+                          findings = ["Gaming servers", "Voice chats", "Private messages"]
+                          specificData = {
+                            type: "gaming communication",
+                            items: [
+                              "🎮 Member of 12 gaming servers",
+                              "🔊 Voice chats with strangers",
+                              "💬 Private DMs from adults",
+                              "⚠️ Inappropriate content shared",
+                              "🚨 Grooming attempts detected",
+                              "🔍 Servers with adult content",
+                            ],
+                            count: 12,
+                          }
+                          break
+                        case "TikTok":
+                          findings = ["Viral videos", "Adult followers", "Inappropriate content"]
+                          specificData = {
+                            type: "short video platform",
+                            items: [
+                              "📱 3 hours daily usage",
+                              "👥 Adult followers (suspicious)",
+                              "🎵 Inappropriate music/content",
+                              "💬 Comments from strangers",
+                              "⚠️ Dangerous challenges viewed",
+                              "🔍 Algorithm showing adult content",
+                            ],
+                            count: 156,
+                          }
+                          break
+                        default:
+                          findings = ["Activity detected", "Potential risks found", "Monitoring recommended"]
+                          specificData = {
+                            type: "platform activity",
+                            items: [
+                              "⚠️ Potential safety concerns",
+                              "👥 Contact with unknown users",
+                              "🚨 Exposure to inappropriate content",
+                              "📱 Excessive usage detected",
+                              "🔍 Inadequate privacy settings",
+                              "⚠️ Parental supervision needed",
+                            ],
+                            count: 1,
+                          }
                       }
                     }
 
@@ -381,7 +539,7 @@ export default function Spy3App() {
 
       scanPlatform()
     }
-  }, [currentStep, isSystemOverloaded, investigationStartTime])
+  }, [currentStep]) // Removed problematic dependencies that were causing infinite loops
 
   const handleStartScanning = () => {
     setCurrentStep("account")
@@ -448,11 +606,11 @@ export default function Spy3App() {
             {/* Logo */}
             <div className="mb-6 sm:mb-8">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                  <Shield className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center">
+                  <Baby className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                 </div>
-                <span className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Spy3
+                <span className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+                  FamilySafe
                 </span>
               </div>
             </div>
@@ -462,51 +620,51 @@ export default function Spy3App() {
               <div className="space-y-6 sm:space-y-8">
                 <div className="space-y-3 sm:space-y-4">
                   <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
-                    Discover the
+                    Protect Your
                     <br />
-                    <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                      Truth
+                    <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+                      Children
                     </span>
                   </h1>
                   <p className="text-gray-300 text-base sm:text-lg leading-relaxed">
-                    Professional social media investigation with advanced digital tracking technology.
+                    Advanced social media monitoring to keep your children safe online.
                   </p>
                 </div>
 
                 <div className="space-y-6">
                   <div className="grid grid-cols-3 gap-3 sm:gap-4">
                     <div className="text-center group">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl sm:rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                        <Instagram className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 bg-green-500 rounded-xl sm:rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <MessageCircle className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                       </div>
-                      <span className="text-gray-300 text-xs sm:text-sm font-medium">Instagram</span>
+                      <span className="text-gray-300 text-xs sm:text-sm font-medium">WhatsApp</span>
                     </div>
 
                     <div className="text-center group">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 bg-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                        <Facebook className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-                      </div>
-                      <span className="text-gray-300 text-xs sm:text-sm font-medium">Facebook</span>
-                    </div>
-
-                    <div className="text-center group">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 bg-gradient-to-r from-red-500 to-pink-500 rounded-xl sm:rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 bg-red-600 rounded-xl sm:rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
                         <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-white fill-current" />
                       </div>
-                      <span className="text-gray-300 text-xs sm:text-sm font-medium">Tinder</span>
+                      <span className="text-gray-300 text-xs sm:text-sm font-medium">OnlyFans</span>
+                    </div>
+
+                    <div className="text-center group">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 bg-pink-500 rounded-xl sm:rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <Star className="w-6 h-6 sm:w-8 sm:h-8 text-white fill-current" />
+                      </div>
+                      <span className="text-gray-300 text-xs sm:text-sm font-medium">TikTok</span>
                     </div>
                   </div>
 
                   <Button
                     onClick={handleStartScanning}
-                    className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+                    className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
                   >
-                    Start Investigation
+                    Start Monitoring
                   </Button>
 
                   <div className="text-center">
                     <p className="text-gray-400 text-xs sm:text-sm">
-                      ✓ 100% Anonymous • ✓ Real-time Results • ✓ Secure Data
+                      ✓ 100% Secure • ✓ Real-time Results • ✓ Family Protection
                     </p>
                   </div>
                 </div>
@@ -521,7 +679,7 @@ export default function Spy3App() {
                     {isLogin ? "Welcome Back" : "Secure Access"}
                   </h2>
                   <p className="text-gray-300 text-sm sm:text-base">
-                    {isLogin ? "Sign in to your investigation account" : "Set up your investigation account"}
+                    {isLogin ? "Sign in to your monitoring account" : "Set up your family monitoring account"}
                   </p>
                 </div>
 
@@ -534,7 +692,7 @@ export default function Spy3App() {
                         placeholder="Enter your email address"
                         value={formData.email}
                         onChange={(e) => handleInputChange("email", e.target.value)}
-                        className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 touch-manipulation"
+                        className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 touch-manipulation"
                         style={{ fontSize: "16px" }} // Prevents zoom on iOS
                         required
                       />
@@ -548,7 +706,7 @@ export default function Spy3App() {
                           placeholder="Confirm your email address"
                           value={formData.confirmEmail}
                           onChange={(e) => handleInputChange("confirmEmail", e.target.value)}
-                          className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 touch-manipulation"
+                          className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 touch-manipulation"
                           style={{ fontSize: "16px" }}
                           required
                         />
@@ -562,7 +720,7 @@ export default function Spy3App() {
                         placeholder={isLogin ? "Enter your password" : "Create a secure password"}
                         value={formData.password}
                         onChange={(e) => handleInputChange("password", e.target.value)}
-                        className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 touch-manipulation"
+                        className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 touch-manipulation"
                         style={{ fontSize: "16px" }}
                         autoComplete={isLogin ? "current-password" : "new-password"}
                         required
@@ -577,7 +735,7 @@ export default function Spy3App() {
                           placeholder="Confirm your password"
                           value={formData.confirmPassword}
                           onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
-                          className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 touch-manipulation"
+                          className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 touch-manipulation"
                           style={{ fontSize: "16px" }}
                           autoComplete="new-password"
                           required
@@ -587,7 +745,7 @@ export default function Spy3App() {
 
                     <Button
                       type="submit"
-                      className="w-full h-12 text-base font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl mt-6 shadow-lg touch-manipulation"
+                      className="w-full h-12 text-base font-semibold bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white rounded-xl mt-6 shadow-lg touch-manipulation"
                     >
                       {isLogin ? "Sign In" : "Create Account"}
                     </Button>
@@ -595,8 +753,8 @@ export default function Spy3App() {
                 ) : (
                   <div className="text-center space-y-4 sm:space-y-6 py-6 sm:py-8">
                     <div className="relative">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin mx-auto"></div>
-                      <div className="absolute inset-0 w-8 h-8 sm:w-12 sm:h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto mt-2 ml-2"></div>
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-green-500/30 border-t-green-500 rounded-full animate-spin mx-auto"></div>
+                      <div className="absolute inset-0 w-8 h-8 sm:w-12 sm:h-12 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin mx-auto mt-2 ml-2"></div>
                     </div>
                     <div className="space-y-2">
                       <p className="text-white font-medium text-sm sm:text-base">
@@ -608,7 +766,7 @@ export default function Spy3App() {
                     </div>
                     <div className="bg-slate-800/50 rounded-xl p-3 sm:p-4 backdrop-blur-sm">
                       <Progress value={loadingProgress} className="w-full h-2 sm:h-3 bg-slate-700" />
-                      <p className="text-lg sm:text-xl font-bold text-blue-400 mt-2">{Math.round(loadingProgress)}%</p>
+                      <p className="text-lg sm:text-xl font-bold text-green-400 mt-2">{Math.round(loadingProgress)}%</p>
                     </div>
                   </div>
                 )}
@@ -618,7 +776,7 @@ export default function Spy3App() {
                     {isLogin ? "Don't have an account? " : "Already have an account? "}
                     <button
                       onClick={() => setIsLogin(!isLogin)}
-                      className="text-blue-400 hover:text-blue-300 underline font-medium transition-colors"
+                      className="text-green-400 hover:text-green-300 underline font-medium transition-colors"
                     >
                       {isLogin ? "Create Account" : "Sign In"}
                     </button>
@@ -631,14 +789,12 @@ export default function Spy3App() {
             {currentStep === "upload" && (
               <div className="space-y-4 sm:space-y-6">
                 <div className="space-y-2">
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white">Target Data</h2>
-                  <p className="text-gray-300 text-sm sm:text-base">
-                    Enter information about the person to investigate
-                  </p>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-white">Child Information</h2>
+                  <p className="text-gray-300 text-sm sm:text-base">Enter the child's information for monitoring</p>
                 </div>
 
                 <form onSubmit={handleUploadSubmit} className="space-y-3 sm:space-y-4">
-                  <div className="border-2 border-dashed border-slate-600 rounded-xl p-4 sm:p-6 text-center bg-slate-800/30 backdrop-blur-sm hover:border-blue-500 transition-colors duration-300">
+                  <div className="border-2 border-dashed border-slate-600 rounded-xl p-4 sm:p-6 text-center bg-slate-800/30 backdrop-blur-sm hover:border-green-500 transition-colors duration-300">
                     <input
                       type="file"
                       accept="image/*"
@@ -652,14 +808,14 @@ export default function Spy3App() {
                           <img
                             src={photoPreview || "/placeholder.svg"}
                             alt="Preview"
-                            className="w-16 h-16 sm:w-24 sm:h-24 object-cover rounded-xl mx-auto border-2 border-blue-500"
+                            className="w-16 h-16 sm:w-24 sm:h-24 object-cover rounded-xl mx-auto border-2 border-green-500"
                           />
                           <p className="text-gray-300 text-xs sm:text-sm">Click to change photo</p>
                         </div>
                       ) : (
                         <>
                           <Upload className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-3 text-gray-400" />
-                          <p className="text-gray-300 font-medium text-sm sm:text-base">Upload target photo</p>
+                          <p className="text-gray-300 font-medium text-sm sm:text-base">Child's photo</p>
                           <p className="text-gray-500 text-xs sm:text-sm mt-1">PNG, JPG up to 10MB</p>
                         </>
                       )}
@@ -673,7 +829,7 @@ export default function Spy3App() {
                       placeholder="Enter full name"
                       value={formData.name}
                       onChange={(e) => handleInputChange("name", e.target.value)}
-                      className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 touch-manipulation"
+                      className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 touch-manipulation"
                       style={{ fontSize: "16px" }}
                       required
                     />
@@ -686,7 +842,7 @@ export default function Spy3App() {
                       placeholder="Enter age"
                       value={formData.age}
                       onChange={(e) => handleInputChange("age", e.target.value)}
-                      className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 touch-manipulation"
+                      className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 touch-manipulation"
                       style={{ fontSize: "16px" }}
                       required
                     />
@@ -699,7 +855,7 @@ export default function Spy3App() {
                       placeholder="Enter phone number"
                       value={formData.phone}
                       onChange={(e) => handleInputChange("phone", e.target.value)}
-                      className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 touch-manipulation"
+                      className="w-full h-12 sm:h-12 px-4 py-3 text-base text-white bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 touch-manipulation"
                       style={{ fontSize: "16px" }}
                       required
                     />
@@ -707,9 +863,9 @@ export default function Spy3App() {
 
                   <Button
                     type="submit"
-                    className="w-full h-12 text-base font-semibold bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white rounded-xl mt-6 shadow-lg touch-manipulation"
+                    className="w-full h-12 text-base font-semibold bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white rounded-xl mt-6 shadow-lg touch-manipulation"
                   >
-                    🔍 Start Investigation
+                    🔍 Start Monitoring
                   </Button>
                 </form>
               </div>
@@ -724,19 +880,19 @@ export default function Spy3App() {
                     {photoPreview && (
                       <img
                         src={photoPreview || "/placeholder.svg"}
-                        alt="Investigation target"
-                        className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-xl border-2 border-blue-500"
+                        alt="Monitored child"
+                        className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-xl border-2 border-green-500"
                       />
                     )}
                     <div className="flex-1">
                       <h3 className="text-base sm:text-lg font-semibold text-white">{formData.name}</h3>
                       <p className="text-gray-300 text-sm">
-                        {formData.age} years • {formData.phone}
+                        {formData.age} years old • {formData.phone}
                       </p>
                       <div className="flex items-center space-x-2 mt-1">
-                        <Search className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
-                        <span className="text-xs sm:text-sm text-red-400 font-medium">
-                          {isSystemOverloaded ? "SYSTEM OVERLOADED" : "ACTIVE INVESTIGATION"}
+                        <UserCheck className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
+                        <span className="text-xs sm:text-sm text-green-400 font-medium">
+                          {isSystemOverloaded ? "SYSTEM OVERLOADED" : "MONITORING ACTIVE"}
                         </span>
                       </div>
                     </div>
@@ -746,9 +902,9 @@ export default function Spy3App() {
                   <div className="bg-gradient-to-r from-slate-800 to-slate-700 text-white p-3 sm:p-4 rounded-xl border border-slate-600 backdrop-blur-sm">
                     <div className="flex items-center justify-between mb-2 sm:mb-3">
                       <span className="text-xs sm:text-sm font-medium">
-                        {isSystemOverloaded ? "System Overloaded" : "Investigation Progress"}
+                        {isSystemOverloaded ? "System Overloaded" : "Monitoring Progress"}
                       </span>
-                      <span className="text-base sm:text-lg font-bold text-blue-400">
+                      <span className="text-base sm:text-lg font-bold text-green-400">
                         {Math.round(overallProgress)}%
                       </span>
                     </div>
@@ -757,7 +913,7 @@ export default function Spy3App() {
                       className={`w-full h-2 sm:h-3 ${isSystemOverloaded ? "bg-red-900" : "bg-slate-600"}`}
                     />
                     {isSystemOverloaded && (
-                      <p className="text-red-400 text-xs mt-2">⚠️ Too many simultaneous investigations detected</p>
+                      <p className="text-red-400 text-xs mt-2">⚠️ Too many simultaneous monitoring sessions detected</p>
                     )}
                   </div>
                 </div>
@@ -769,9 +925,9 @@ export default function Spy3App() {
                       key={platform.name}
                       className={`p-2 sm:p-4 rounded-xl border-2 transition-all duration-300 backdrop-blur-sm ${
                         platform.status === "scanning"
-                          ? "border-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/20"
+                          ? "border-green-500 bg-green-500/10 shadow-lg shadow-green-500/20"
                           : platform.status === "found"
-                            ? "border-green-500 bg-green-500/10 shadow-lg shadow-green-500/20"
+                            ? "border-red-500 bg-red-500/10 shadow-lg shadow-red-500/20"
                             : platform.status === "completed"
                               ? "border-gray-500 bg-gray-500/10"
                               : "border-slate-600 bg-slate-800/30"
@@ -788,12 +944,14 @@ export default function Spy3App() {
                         </div>
 
                         {platform.status === "scanning" && (
-                          <div className="w-3 h-3 sm:w-5 sm:h-5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+                          <div className="w-3 h-3 sm:w-5 sm:h-5 border-2 border-green-400 border-t-transparent rounded-full animate-spin"></div>
                         )}
                         {platform.status === "found" && (
+                          <AlertTriangle className="w-4 h-4 sm:w-6 sm:h-6 text-red-400" />
+                        )}
+                        {platform.status === "completed" && (
                           <CheckCircle className="w-4 h-4 sm:w-6 sm:h-6 text-green-400" />
                         )}
-                        {platform.status === "completed" && <XCircle className="w-4 h-4 sm:w-6 sm:h-6 text-gray-400" />}
                         {platform.status === "waiting" && <Clock className="w-4 h-4 sm:w-6 sm:h-6 text-gray-400" />}
                       </div>
 
@@ -801,41 +959,29 @@ export default function Spy3App() {
                         <div className="flex justify-between text-xs sm:text-sm">
                           <span className="text-gray-300 font-medium">
                             {platform.status === "waiting" && "Waiting..."}
-                            {platform.status === "scanning" && "Scanning..."}
-                            {platform.status === "found" && "Data found!"}
-                            {platform.status === "completed" && "No results"}
+                            {platform.status === "scanning" && "Checking..."}
+                            {platform.status === "found" && "⚠️ Risks found!"}
+                            {platform.status === "completed" && "Safe"}
                           </span>
                           <span className="font-bold text-white">{Math.round(platform.progress)}%</span>
                         </div>
                         <Progress
                           value={platform.progress}
-                          className={`w-full h-1.5 sm:h-2 ${platform.status === "found" ? "bg-green-900" : "bg-slate-700"}`}
+                          className={`w-full h-1.5 sm:h-2 ${platform.status === "found" ? "bg-red-900" : "bg-slate-700"}`}
                         />
 
                         {platform.specificData && platform.specificData.items.length > 0 && (
                           <div className="mt-2 sm:mt-3 space-y-1 sm:space-y-2 max-h-24 sm:max-h-32 overflow-y-auto">
                             <div className="flex items-center space-x-1 sm:space-x-2">
-                              {platform.name === "Instagram" && (
-                                <ImageIcon className="w-3 h-3 sm:w-4 sm:h-4 text-pink-400" />
-                              )}
-                              {platform.name === "Facebook" && (
-                                <Users className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
-                              )}
-                              {platform.name === "Tinder" && <Star className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />}
-                              {platform.name === "WhatsApp" && (
-                                <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
-                              )}
-                              {platform.name === "Location" && (
-                                <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
-                              )}
-                              <span className="text-xs font-semibold text-white uppercase">
+                              <AlertTriangle className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
+                              <span className="text-xs font-semibold text-red-400 uppercase">
                                 {platform.specificData.type}
                               </span>
                             </div>
                             {platform.specificData.items.slice(0, 3).map((item, idx) => (
                               <div key={idx} className="flex items-start space-x-1 sm:space-x-2">
-                                <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-green-400 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
-                                <span className="text-xs text-green-300 leading-relaxed">{item}</span>
+                                <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-red-400 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
+                                <span className="text-xs text-red-300 leading-relaxed">{item}</span>
                               </div>
                             ))}
                           </div>
@@ -860,7 +1006,7 @@ export default function Spy3App() {
                         >
                           <Lock className={`w-3 h-3 sm:w-5 sm:h-5 ${showUnlockSquare ? "animate-bounce" : ""}`} />
                         </div>
-                        <span className="font-semibold text-white text-xs sm:text-sm">Unlock</span>
+                        <span className="font-semibold text-white text-xs sm:text-sm">Report</span>
                       </div>
                       {showUnlockSquare ? (
                         <div className="w-3 h-3 sm:w-5 sm:h-5 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
@@ -872,7 +1018,7 @@ export default function Spy3App() {
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex justify-between text-xs sm:text-sm">
                         <span className={`font-medium ${showUnlockSquare ? "text-yellow-300" : "text-gray-300"}`}>
-                          {showUnlockSquare ? "Ready to unlock..." : "Waiting..."}
+                          {showUnlockSquare ? "Report ready..." : "Waiting..."}
                         </span>
                         <span className={`font-bold ${showUnlockSquare ? "text-yellow-400" : "text-white"}`}>
                           {showUnlockSquare ? "100%" : "0%"}
@@ -885,10 +1031,10 @@ export default function Spy3App() {
 
                       <div className="mt-2 sm:mt-3 space-y-1 sm:space-y-2">
                         <div className="flex items-center space-x-1 sm:space-x-2">
-                          <Lock
+                          <Shield
                             className={`w-3 h-3 sm:w-4 sm:h-4 ${showUnlockSquare ? "text-yellow-400" : "text-gray-400"}`}
                           />
-                          <span className="text-xs font-semibold text-white uppercase">FULL ACCESS</span>
+                          <span className="text-xs font-semibold text-white uppercase">FULL REPORT</span>
                         </div>
                         <div className="space-y-1">
                           <div className="flex items-start space-x-1 sm:space-x-2">
@@ -900,7 +1046,7 @@ export default function Spy3App() {
                             <span
                               className={`text-xs leading-relaxed ${showUnlockSquare ? "text-yellow-300" : "text-gray-400"}`}
                             >
-                              📸 Photos
+                              🚨 Safety alerts
                             </span>
                           </div>
                           <div className="flex items-start space-x-1 sm:space-x-2">
@@ -912,7 +1058,7 @@ export default function Spy3App() {
                             <span
                               className={`text-xs leading-relaxed ${showUnlockSquare ? "text-yellow-300" : "text-gray-400"}`}
                             >
-                              💬 Conversations
+                              📊 Activity analysis
                             </span>
                           </div>
                           <div className="flex items-start space-x-1 sm:space-x-2">
@@ -924,19 +1070,7 @@ export default function Spy3App() {
                             <span
                               className={`text-xs leading-relaxed ${showUnlockSquare ? "text-yellow-300" : "text-gray-400"}`}
                             >
-                              👥 Profiles accessed
-                            </span>
-                          </div>
-                          <div className="flex items-start space-x-1 sm:space-x-2">
-                            <div
-                              className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full mt-1.5 sm:mt-2 flex-shrink-0 ${
-                                showUnlockSquare ? "bg-yellow-400" : "bg-gray-500"
-                              }`}
-                            ></div>
-                            <span
-                              className={`text-xs leading-relaxed ${showUnlockSquare ? "text-yellow-300" : "text-gray-400"}`}
-                            >
-                              💕 Matches
+                              💡 Recommendations
                             </span>
                           </div>
                         </div>
@@ -947,14 +1081,14 @@ export default function Spy3App() {
 
                 {/* Current Scanning Status */}
                 {currentScanningIndex >= 0 && !isSystemOverloaded && (
-                  <div className="text-center p-3 sm:p-4 bg-blue-500/10 rounded-xl border border-blue-500/30 backdrop-blur-sm">
+                  <div className="text-center p-3 sm:p-4 bg-green-500/10 rounded-xl border border-green-500/30 backdrop-blur-sm">
                     <div className="flex items-center justify-center space-x-2 mb-2">
-                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-400 rounded-full animate-pulse"></div>
-                      <p className="text-blue-300 font-semibold text-sm sm:text-base">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse"></div>
+                      <p className="text-green-300 font-semibold text-sm sm:text-base">
                         Analyzing {platforms[currentScanningIndex]?.name}...
                       </p>
                     </div>
-                    <p className="text-blue-400 text-xs sm:text-sm">
+                    <p className="text-green-400 text-xs sm:text-sm">
                       Checking profiles, activities and connections in real-time
                     </p>
                   </div>
@@ -968,7 +1102,7 @@ export default function Spy3App() {
                       <p className="text-red-300 font-semibold text-sm sm:text-base">System Overloaded</p>
                     </div>
                     <p className="text-red-400 text-xs sm:text-sm">
-                      Too many investigations running. Redirecting to safety mode...
+                      Too many monitoring sessions running. Redirecting to safety mode...
                     </p>
                   </div>
                 )}
@@ -983,11 +1117,13 @@ export default function Spy3App() {
                 </div>
                 <div className="space-y-2 sm:space-y-3">
                   <h2 className="text-2xl sm:text-3xl font-bold text-white">System Overloaded</h2>
-                  <p className="text-gray-300 text-base sm:text-lg">Too many simultaneous investigations detected.</p>
+                  <p className="text-gray-300 text-base sm:text-lg">
+                    Too many simultaneous monitoring sessions detected.
+                  </p>
                   <p className="text-gray-400 text-sm sm:text-base">Our servers are protecting your privacy.</p>
                 </div>
                 <div className="bg-slate-800/50 rounded-xl p-3 sm:p-4 backdrop-blur-sm">
-                  <p className="text-yellow-400 text-xs sm:text-sm">⚠️ Try again in a few minutes</p>
+                  <p className="text-yellow-400 text-xs sm:text-sm">⚠️ Please try again in a few minutes</p>
                 </div>
 
                 {cooldownRemaining > 0 ? (
@@ -1057,26 +1193,26 @@ export default function Spy3App() {
         <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 items-center justify-center p-8 relative overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-20 left-20 w-32 h-32 bg-blue-500 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-20 right-20 w-40 h-40 bg-purple-500 rounded-full blur-3xl"></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-3xl"></div>
+            <div className="absolute top-20 left-20 w-32 h-32 bg-green-500 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 right-20 w-40 h-40 bg-blue-500 rounded-full blur-3xl"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-gradient-to-r from-green-500 to-blue-500 rounded-full blur-3xl"></div>
           </div>
 
           <div className="text-center space-y-8 max-w-md relative z-10">
-            <div className="w-32 h-32 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-3xl mx-auto flex items-center justify-center shadow-2xl">
-              <Shield className="w-16 h-16 text-white" />
+            <div className="w-32 h-32 bg-gradient-to-br from-green-500 via-blue-500 to-teal-500 rounded-3xl mx-auto flex items-center justify-center shadow-2xl">
+              <Baby className="w-16 h-16 text-white" />
             </div>
             <div className="space-y-4">
               <h3 className="text-3xl font-bold text-white leading-tight">
                 Advanced
                 <br />
-                <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Investigation Technology
+                <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+                  Family Protection
                 </span>
               </h3>
               <p className="text-gray-300 leading-relaxed text-lg">
-                Artificial intelligence algorithms for professional digital tracking and behavioral analysis on social
-                networks.
+                AI algorithms for digital monitoring and behavioral analysis across social networks, keeping your
+                children safe.
               </p>
             </div>
             <div className="flex justify-center space-x-4">
@@ -1085,8 +1221,8 @@ export default function Spy3App() {
                 <span className="text-sm font-medium">100% Secure</span>
               </div>
               <div className="flex items-center space-x-2 text-blue-400">
-                <Lock className="w-5 h-5" />
-                <span className="text-sm font-medium">Encrypted</span>
+                <Shield className="w-5 h-5" />
+                <span className="text-sm font-medium">Family Protection</span>
               </div>
             </div>
           </div>
