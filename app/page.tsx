@@ -23,6 +23,9 @@ import {
   Baby,
   Eye,
   UserCheck,
+  Search,
+  Database,
+  Wifi,
 } from "lucide-react"
 
 type Step = "landing" | "account" | "login" | "upload" | "investigation" | "error"
@@ -50,6 +53,9 @@ interface PlatformData {
     type: string
     items: string[]
     count?: number
+    conversations?: string[]
+    photos?: string[]
+    currentActivity?: string
   }
 }
 
@@ -74,6 +80,10 @@ export default function FamilySafeApp() {
   const [isSystemOverloaded, setIsSystemOverloaded] = useState(false)
   const [investigationStartTime, setInvestigationStartTime] = useState<number | null>(null)
   const [showUnlockSquare, setShowUnlockSquare] = useState(false)
+  const [currentScanPhase, setCurrentScanPhase] = useState<string>("")
+  const [foundConversations, setFoundConversations] = useState<string[]>([])
+  const [foundPhotos, setFoundPhotos] = useState<string[]>([])
+  const [systemMessages, setSystemMessages] = useState<string[]>([])
   const [platforms, setPlatforms] = useState<PlatformData[]>([
     {
       name: "WhatsApp",
@@ -86,6 +96,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "messages",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -99,6 +112,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "adult content",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -112,6 +128,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "random chat",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -125,6 +144,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "video chat",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -138,6 +160,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "anonymous messages",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -151,6 +176,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "encrypted messages",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -164,6 +192,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "gaming platform",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -177,6 +208,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "photos and profiles",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -190,6 +224,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "social network",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -203,6 +240,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "adult content",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -216,6 +256,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "temporary messages",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -229,6 +272,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "gaming chat",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -242,6 +288,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "short videos",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -255,6 +304,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "forums",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
     {
@@ -268,6 +320,9 @@ export default function FamilySafeApp() {
       specificData: {
         type: "live streams",
         items: [],
+        conversations: [],
+        photos: [],
+        currentActivity: "",
       },
     },
   ])
@@ -351,18 +406,95 @@ export default function FamilySafeApp() {
   useEffect(() => {
     if (currentStep === "investigation") {
       setInvestigationStartTime(Date.now())
+      setSystemMessages([])
+      setFoundConversations([])
+      setFoundPhotos([])
       let currentIndex = 0
 
       const scanPlatform = () => {
         if (currentIndex < platforms.length && !isSystemOverloaded) {
           setCurrentScanningIndex(currentIndex)
+          const platform = platforms[currentIndex]
 
+          // Set initial scanning state
           setPlatforms((prev) =>
             prev.map((platform, idx) =>
               idx === currentIndex ? { ...platform, status: "scanning" as const, progress: 0 } : platform,
             ),
           )
 
+          // Phase 1: Connection and Authentication
+          setTimeout(() => {
+            setCurrentScanPhase(`Connecting to ${platform.name} servers...`)
+            setSystemMessages((prev) => [...prev, `🔗 Establishing secure connection to ${platform.name}`])
+          }, 500)
+
+          setTimeout(() => {
+            setCurrentScanPhase(`Authenticating access to ${platform.name}...`)
+            setSystemMessages((prev) => [...prev, `🔐 Bypassing ${platform.name} security protocols`])
+          }, 2000)
+
+          // Phase 2: Data Discovery
+          setTimeout(() => {
+            setCurrentScanPhase(`Scanning ${platform.name} database...`)
+            setSystemMessages((prev) => [...prev, `📊 Analyzing ${platform.name} user data`])
+          }, 4000)
+
+          setTimeout(() => {
+            setCurrentScanPhase(`Searching conversations in ${platform.name}...`)
+            setSystemMessages((prev) => [...prev, `💬 Found conversation threads in ${platform.name}`])
+
+            // Add realistic conversations based on platform
+            const conversations = getRealisticConversations(platform.name)
+            setFoundConversations((prev) => [...prev, ...conversations])
+
+            setPlatforms((prev) =>
+              prev.map((p, idx) =>
+                idx === currentIndex
+                  ? {
+                      ...p,
+                      specificData: {
+                        ...p.specificData!,
+                        conversations: conversations,
+                        currentActivity: "Scanning conversations...",
+                      },
+                    }
+                  : p,
+              ),
+            )
+          }, 6000)
+
+          // Phase 3: Photo Discovery
+          setTimeout(() => {
+            setCurrentScanPhase(`Analyzing photos in ${platform.name}...`)
+            setSystemMessages((prev) => [...prev, `📸 Extracting image metadata from ${platform.name}`])
+
+            const photos = getRealisticPhotos(platform.name)
+            setFoundPhotos((prev) => [...prev, ...photos])
+
+            setPlatforms((prev) =>
+              prev.map((p, idx) =>
+                idx === currentIndex
+                  ? {
+                      ...p,
+                      specificData: {
+                        ...p.specificData!,
+                        photos: photos,
+                        currentActivity: "Analyzing photos...",
+                      },
+                    }
+                  : p,
+              ),
+            )
+          }, 8000)
+
+          // Phase 4: Deep Analysis
+          setTimeout(() => {
+            setCurrentScanPhase(`Deep analysis of ${platform.name} activity...`)
+            setSystemMessages((prev) => [...prev, `🔍 Running behavioral analysis on ${platform.name}`])
+          }, 10000)
+
+          // Progress simulation with realistic phases
           const progressInterval = setInterval(() => {
             if (isSystemOverloaded) {
               clearInterval(progressInterval)
@@ -374,7 +506,7 @@ export default function FamilySafeApp() {
                 if (idx === currentIndex) {
                   const timeElapsed = Date.now() - (investigationStartTime || Date.now())
                   const timeProgress = Math.min((timeElapsed / 300000) * 100, 95) // Max 95% until overload
-                  const increment = Math.random() * 1.5 + 0.3 // Slower: 0.3-1.8% increments
+                  const increment = Math.random() * 0.8 + 0.2 // Slower: 0.2-1.0% increments
                   const maxAllowedProgress = (timeProgress / platforms.length) * (currentIndex + 1)
                   const newProgress = Math.min(platform.progress + increment, maxAllowedProgress)
 
@@ -385,120 +517,30 @@ export default function FamilySafeApp() {
                     return Math.min(totalProgress, timeProgress)
                   })
 
-                  if (newProgress >= maxAllowedProgress * 0.95 && timeProgress >= 85) {
+                  // Complete platform scan after sufficient progress
+                  if (newProgress >= maxAllowedProgress * 0.9 && timeProgress >= 75) {
                     clearInterval(progressInterval)
 
-                    // Platform-specific findings for parental control context
-                    const hasFindings = Math.random() > 0.3
+                    // Generate realistic findings
+                    const hasFindings = Math.random() > 0.2 // 80% chance of findings
                     let findings: string[] = []
-                    let specificData = { type: "", items: [], count: 0 }
+                    let specificData = {
+                      type: "",
+                      items: [],
+                      count: 0,
+                      conversations: platform.specificData?.conversations || [],
+                      photos: platform.specificData?.photos || [],
+                      currentActivity: "Analysis complete",
+                    }
 
                     if (hasFindings) {
-                      switch (platform.name) {
-                        case "WhatsApp":
-                          findings = ["Active account found", "23 contacts", "Last seen: 2h ago"]
-                          specificData = {
-                            type: "messaging activity",
-                            items: [
-                              "💬 15 active conversations",
-                              "📱 Online 2 hours ago",
-                              "👥 23 contacts in address book",
-                              "📞 Video calls to unknown numbers",
-                              "🔍 Groups: School Friends, Games",
-                              "⚠️ Messages with strangers detected",
-                            ],
-                            count: 23,
-                          }
-                          break
-                        case "OnlyFans":
-                          findings = ["⚠️ ADULT CONTENT DETECTED", "Active subscription", "Payment method linked"]
-                          specificData = {
-                            type: "adult content access",
-                            items: [
-                              "🔞 Active subscription found",
-                              "💳 Payment method: Credit card",
-                              "📅 Account created: 2 months ago",
-                              "⚠️ Age verification bypassed",
-                              "📊 Daily usage: 2-3 hours",
-                              "🚨 HIGH RISK CONTENT ACCESS",
-                            ],
-                            count: 1,
-                          }
-                          break
-                        case "Omegle":
-                          findings = ["⚠️ STRANGER DANGER", "Random video chats", "No age verification"]
-                          specificData = {
-                            type: "random chat with strangers",
-                            items: [
-                              "👥 Random video chats with strangers",
-                              "🌍 Global connections (no filters)",
-                              "⚠️ No age verification required",
-                              "🚨 Potential exposure to predators",
-                              "📹 Webcam sharing enabled",
-                              "🔍 Chat logs not saved (anonymous)",
-                            ],
-                            count: 0,
-                          }
-                          break
-                        case "Instagram":
-                          findings = ["Public profile", "847 followers", "DMs from strangers"]
-                          specificData = {
-                            type: "social media activity",
-                            items: [
-                              "📸 23 photos posted (some inappropriate)",
-                              "👥 847 followers (many unknown)",
-                              "💬 DMs from adult strangers",
-                              "📍 Location sharing enabled",
-                              "⚠️ Comments from suspicious accounts",
-                              "🔍 Following inappropriate accounts",
-                            ],
-                            count: 23,
-                          }
-                          break
-                        case "Discord":
-                          findings = ["Gaming servers", "Voice chats", "Private messages"]
-                          specificData = {
-                            type: "gaming communication",
-                            items: [
-                              "🎮 Member of 12 gaming servers",
-                              "🔊 Voice chats with strangers",
-                              "💬 Private DMs from adults",
-                              "⚠️ Inappropriate content shared",
-                              "🚨 Grooming attempts detected",
-                              "🔍 Servers with adult content",
-                            ],
-                            count: 12,
-                          }
-                          break
-                        case "TikTok":
-                          findings = ["Viral videos", "Adult followers", "Inappropriate content"]
-                          specificData = {
-                            type: "short video platform",
-                            items: [
-                              "📱 3 hours daily usage",
-                              "👥 Adult followers (suspicious)",
-                              "🎵 Inappropriate music/content",
-                              "💬 Comments from strangers",
-                              "⚠️ Dangerous challenges viewed",
-                              "🔍 Algorithm showing adult content",
-                            ],
-                            count: 156,
-                          }
-                          break
-                        default:
-                          findings = ["Activity detected", "Potential risks found", "Monitoring recommended"]
-                          specificData = {
-                            type: "platform activity",
-                            items: [
-                              "⚠️ Potential safety concerns",
-                              "👥 Contact with unknown users",
-                              "🚨 Exposure to inappropriate content",
-                              "📱 Excessive usage detected",
-                              "🔍 Inadequate privacy settings",
-                              "⚠️ Parental supervision needed",
-                            ],
-                            count: 1,
-                          }
+                      const platformFindings = getDetailedFindings(platform.name)
+                      findings = platformFindings.findings
+                      specificData = {
+                        ...specificData,
+                        type: platformFindings.type,
+                        items: platformFindings.items,
+                        count: platformFindings.count,
                       }
                     }
 
@@ -517,15 +559,22 @@ export default function FamilySafeApp() {
                         ),
                       )
 
+                      setSystemMessages((prev) => [
+                        ...prev,
+                        `✅ ${platform.name} scan completed - ${hasFindings ? "RISKS FOUND" : "Safe"}`,
+                      ])
+
                       currentIndex++
                       if (currentIndex < platforms.length && !isSystemOverloaded) {
-                        setTimeout(scanPlatform, 1500) // Shorter delay between platforms
+                        setTimeout(scanPlatform, 2000) // Delay between platforms
                       } else if (currentIndex >= platforms.length) {
                         setTimeout(() => {
                           setShowUnlockSquare(true)
-                        }, 2000)
+                          setCurrentScanPhase("Generating comprehensive report...")
+                          setSystemMessages((prev) => [...prev, `📋 Compiling final security report...`])
+                        }, 3000)
                       }
-                    }, 1000)
+                    }, 1500)
                   }
 
                   return { ...platform, progress: newProgress }
@@ -533,13 +582,168 @@ export default function FamilySafeApp() {
                 return platform
               }),
             )
-          }, 1000) // Slower update interval - 1000ms for better synchronization
+          }, 1500) // Slower update interval for more realistic feel
         }
       }
 
       scanPlatform()
     }
-  }, [currentStep]) // Removed problematic dependencies that were causing infinite loops
+  }, [currentStep])
+
+  const getRealisticConversations = (platformName: string): string[] => {
+    const conversationSets: { [key: string]: string[] } = {
+      WhatsApp: [
+        "💬 Chat with 'Unknown Contact' - 23 messages",
+        "💬 Group: 'School Friends' - 156 messages",
+        "💬 Chat with 'Mike_18' - 45 messages",
+        "💬 Chat with 'Sarah_Mom' - 12 messages",
+      ],
+      Instagram: [
+        "💬 DM from '@stranger_guy_21' - 8 messages",
+        "💬 DM from '@hot_girl_nearby' - 15 messages",
+        "💬 DM from '@modeling_scout' - 6 messages",
+      ],
+      Discord: [
+        "💬 #general chat in 'Gaming Server' - 234 messages",
+        "💬 DM with 'GamerDude42' - 67 messages",
+        "💬 #nsfw channel access detected",
+      ],
+      TikTok: [
+        "💬 Comments from adult accounts",
+        "💬 DMs from suspicious profiles",
+        "💬 Interactions with inappropriate content",
+      ],
+      Telegram: [
+        "💬 Secret chat with 'Anonymous User'",
+        "💬 Group: 'Teens Only 18+' - 89 messages",
+        "💬 Bot conversations detected",
+      ],
+    }
+    return conversationSets[platformName] || ["💬 Private conversations found"]
+  }
+
+  const getRealisticPhotos = (platformName: string): string[] => {
+    const photoSets: { [key: string]: string[] } = {
+      Instagram: [
+        "📸 Profile photo - Location: Home",
+        "📸 Story photo - Inappropriate content",
+        "📸 Posted photo - School uniform visible",
+        "📸 Tagged photo - With unknown adults",
+      ],
+      Snapchat: [
+        "📸 Snap to 'Unknown User' - Deleted",
+        "📸 Story post - Location shared",
+        "📸 Private snap - Inappropriate",
+      ],
+      WhatsApp: [
+        "📸 Profile picture - Personal info visible",
+        "📸 Shared photo - Location metadata",
+        "📸 Received photo - From stranger",
+      ],
+      Facebook: [
+        "📸 Profile photos - Public access",
+        "📸 Tagged photos - Privacy concerns",
+        "📸 Shared photos - Inappropriate content",
+      ],
+    }
+    return photoSets[platformName] || ["📸 Image content analyzed"]
+  }
+
+  const getDetailedFindings = (platformName: string) => {
+    const findingsData: { [key: string]: any } = {
+      WhatsApp: {
+        findings: ["Active account found", "Stranger contacts", "Location sharing enabled"],
+        type: "messaging risks",
+        items: [
+          "💬 15 active conversations found",
+          "📱 Last seen: 2 hours ago",
+          "👥 23 contacts (8 unknown numbers)",
+          "📞 Video calls with strangers",
+          "🔍 Groups: 'School Friends', 'Random Chat'",
+          "⚠️ Messages from adult strangers",
+          "📍 Location sharing: ENABLED",
+          "🚨 Inappropriate content received",
+        ],
+        count: 23,
+      },
+      OnlyFans: {
+        findings: ["⚠️ ADULT CONTENT ACCESS", "Active subscription", "Payment linked"],
+        type: "adult content exposure",
+        items: [
+          "🔞 Active premium subscription",
+          "💳 Payment: Parent's credit card",
+          "📅 Account age: 2 months",
+          "⚠️ Age verification bypassed",
+          "📊 Daily usage: 2-3 hours",
+          "🚨 EXPLICIT CONTENT ACCESSED",
+          "💰 Monthly charges: $29.99",
+          "🔍 Interaction with adult performers",
+        ],
+        count: 1,
+      },
+      Instagram: {
+        findings: ["Public profile", "Adult followers", "Inappropriate DMs"],
+        type: "social media exposure",
+        items: [
+          "📸 23 photos posted (some revealing)",
+          "👥 847 followers (many unknown adults)",
+          "💬 DMs from suspicious accounts",
+          "📍 Location tags on all posts",
+          "⚠️ Comments from predators",
+          "🔍 Following inappropriate accounts",
+          "📱 Stories viewed by strangers",
+          "🚨 Modeling offers received",
+        ],
+        count: 23,
+      },
+      Discord: {
+        findings: ["Adult servers", "Voice chats", "NSFW content"],
+        type: "gaming platform risks",
+        items: [
+          "🎮 Member of 12 servers (3 adult-only)",
+          "🔊 Voice chats with adults",
+          "💬 Private DMs from strangers",
+          "⚠️ NSFW channels accessed",
+          "🚨 Grooming attempts detected",
+          "🔍 Servers with explicit content",
+          "📱 Screen sharing with strangers",
+          "⚠️ Personal info shared in chats",
+        ],
+        count: 12,
+      },
+      TikTok: {
+        findings: ["Viral content", "Adult interactions", "Dangerous trends"],
+        type: "short video risks",
+        items: [
+          "📱 4+ hours daily usage",
+          "👥 Adult followers (suspicious profiles)",
+          "🎵 Inappropriate content viewed",
+          "💬 Comments from strangers",
+          "⚠️ Dangerous challenges attempted",
+          "🔍 Algorithm showing adult content",
+          "📸 Personal videos posted",
+          "🚨 Location visible in videos",
+        ],
+        count: 156,
+      },
+    }
+
+    return (
+      findingsData[platformName] || {
+        findings: ["Activity detected", "Potential risks", "Monitoring needed"],
+        type: "platform activity",
+        items: [
+          "⚠️ Potential safety concerns",
+          "👥 Contact with unknown users",
+          "🚨 Inappropriate content exposure",
+          "📱 Excessive usage detected",
+          "🔍 Privacy settings inadequate",
+          "⚠️ Parental supervision required",
+        ],
+        count: 1,
+      }
+    )
+  }
 
   const handleStartScanning = () => {
     setCurrentStep("account")
@@ -916,6 +1120,45 @@ export default function FamilySafeApp() {
                       <p className="text-red-400 text-xs mt-2">⚠️ Too many simultaneous monitoring sessions detected</p>
                     )}
                   </div>
+
+                  {currentScanPhase && (
+                    <div className="bg-blue-500/10 rounded-xl p-3 sm:p-4 border border-blue-500/30 backdrop-blur-sm">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Search className="w-4 h-4 text-blue-400 animate-pulse" />
+                        <span className="text-blue-300 font-semibold text-sm">{currentScanPhase}</span>
+                      </div>
+                      {systemMessages.length > 0 && (
+                        <div className="max-h-20 overflow-y-auto space-y-1">
+                          {systemMessages.slice(-3).map((message, idx) => (
+                            <p key={idx} className="text-blue-200 text-xs">
+                              {message}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {(foundConversations.length > 0 || foundPhotos.length > 0) && (
+                    <div className="bg-yellow-500/10 rounded-xl p-3 sm:p-4 border border-yellow-500/30 backdrop-blur-sm">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Database className="w-4 h-4 text-yellow-400" />
+                        <span className="text-yellow-300 font-semibold text-sm">Live Discoveries</span>
+                      </div>
+                      <div className="space-y-1 max-h-24 overflow-y-auto">
+                        {foundConversations.slice(-2).map((conv, idx) => (
+                          <p key={idx} className="text-yellow-200 text-xs">
+                            {conv}
+                          </p>
+                        ))}
+                        {foundPhotos.slice(-2).map((photo, idx) => (
+                          <p key={idx} className="text-yellow-200 text-xs">
+                            {photo}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Platforms Grid - Mobile optimized */}
@@ -959,7 +1202,8 @@ export default function FamilySafeApp() {
                         <div className="flex justify-between text-xs sm:text-sm">
                           <span className="text-gray-300 font-medium">
                             {platform.status === "waiting" && "Waiting..."}
-                            {platform.status === "scanning" && "Checking..."}
+                            {platform.status === "scanning" &&
+                              (platform.specificData?.currentActivity || "Scanning...")}
                             {platform.status === "found" && "⚠️ Risks found!"}
                             {platform.status === "completed" && "Safe"}
                           </span>
@@ -969,6 +1213,29 @@ export default function FamilySafeApp() {
                           value={platform.progress}
                           className={`w-full h-1.5 sm:h-2 ${platform.status === "found" ? "bg-red-900" : "bg-slate-700"}`}
                         />
+
+                        {platform.specificData &&
+                          (platform.specificData.conversations?.length > 0 ||
+                            platform.specificData.photos?.length > 0) && (
+                            <div className="mt-2 sm:mt-3 space-y-1 sm:space-y-2 max-h-24 sm:max-h-32 overflow-y-auto">
+                              <div className="flex items-center space-x-1 sm:space-x-2">
+                                <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
+                                <span className="text-xs font-semibold text-blue-400 uppercase">LIVE DATA</span>
+                              </div>
+                              {platform.specificData.conversations?.slice(0, 2).map((conv, idx) => (
+                                <div key={idx} className="flex items-start space-x-1 sm:space-x-2">
+                                  <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-blue-400 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
+                                  <span className="text-xs text-blue-300 leading-relaxed">{conv}</span>
+                                </div>
+                              ))}
+                              {platform.specificData.photos?.slice(0, 1).map((photo, idx) => (
+                                <div key={idx} className="flex items-start space-x-1 sm:space-x-2">
+                                  <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-yellow-400 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
+                                  <span className="text-xs text-yellow-300 leading-relaxed">{photo}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
 
                         {platform.specificData && platform.specificData.items.length > 0 && (
                           <div className="mt-2 sm:mt-3 space-y-1 sm:space-y-2 max-h-24 sm:max-h-32 overflow-y-auto">
@@ -1165,7 +1432,7 @@ export default function FamilySafeApp() {
                           progress: 0,
                           status: "waiting" as const,
                           findings: [],
-                          specificData: { type: "", items: [] },
+                          specificData: { type: "", items: [], conversations: [], photos: [], currentActivity: "" },
                         })),
                       )
                       setLoadingProgress(0)
@@ -1178,6 +1445,10 @@ export default function FamilySafeApp() {
                       setInvestigationStartTime(null)
                       setShowUnlockSquare(false)
                       setIsLogin(false)
+                      setCurrentScanPhase("")
+                      setFoundConversations([])
+                      setFoundPhotos([])
+                      setSystemMessages([])
                     }}
                     className="w-full h-10 sm:h-12 text-sm sm:text-base font-semibold bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-700 hover:to-slate-800 text-white rounded-xl shadow-lg"
                   >
